@@ -14,7 +14,7 @@ char *get_path(shell_data *data, const char *command  __attribute__((unused)))
 	char *fullpath;
 	char *path = _getenv("PATH");
 	char *path_error = "not found";
-	
+
 	fullpath = data->args[0];
 	if (access(fullpath, X_OK) == -1)
 	{
@@ -22,11 +22,11 @@ char *get_path(shell_data *data, const char *command  __attribute__((unused)))
 		if (path == NULL || path[0] == '\0')
 		{
 			if (path[0] == '\0')
-				return data->args[0];
-			return NULL;
+				return (data->args[0]);
+			return (NULL);
 		}
 		if (fullpath == NULL)
-			return path_error;
+			return (path_error);
 
 	}
 	return (fullpath);
@@ -35,35 +35,37 @@ char *get_path(shell_data *data, const char *command  __attribute__((unused)))
 
 int find_file(char *path)
 {
-        struct stat buff;
-        return ((stat(path, &buff) == 0));
+	sitruct stat buff;
+
+	return ((stat(path, &buff) == 0));
 }
-  
+
 char *_which(char *filename, char *path)
 {
-        char *path_cpy;
+	char *path_cpy;
         char *tokens[1024];
         char *pathname;
-        int i;
-	  if (path == NULL)
-        {
-          return (NULL);
+	int i;
+
+	if (path == NULL)
+	{
+		return (NULL);
         }
-        path_cpy = _strdup(path);
+	path_cpy = _strdup(path);
 
         /* Tokenize path */
-        i = 0;
+	i = 0;
         tokens[i] = strtok(path_cpy, ":");
 
         while (tokens[i] != NULL)
-        {
-                pathname = malloc(_strlen(tokens[i]) + _strlen(filename) + 2);
-                sprintf(pathname, "%s/%s", tokens[i], filename);
-
-                if (find_file(pathname))
-                {
-                        free(path_cpy);
-                        return(pathname);
+	{
+		pathname = malloc(_strlen(tokens[i]) + _strlen(filename) + 2);
+		sprintf(pathname, "%s/%s", tokens[i], filename);
+	
+		if (find_file(pathname))
+		{
+			free(path_cpy);
+			return (pathname);
                 }
 
                 free(pathname);
@@ -74,4 +76,3 @@ char *_which(char *filename, char *path)
         free(path_cpy);
         return (NULL);
 }
-
