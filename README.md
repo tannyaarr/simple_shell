@@ -26,18 +26,11 @@ These are the files with custom system calls and functions with a brief descript
 <h2>REQUIREMENTS<h2>
 <body>
 <ul> 
-	<li> Write a UNIX command line interpreter.</li>
+	<li> Write a UNIX command line interpreter.
 
-<p>Display a prompt and wait for the user to type a command. A command line always ends with a new line.
-If an executable cannot be found, print an error message and display the prompt again.
-Handle errors.
-You have to handle the “end of file” condition (Ctrl+D)</p>
+	Handle command lines with arguments
 
-	<li> Handle command lines with arguments</li>
-
-
-	<li> Handle the PATH </li>
-<p>fork must not be called if the command doesn’t exist</p>
+	Handle the PATH </li>
 
 </ul>
 4. Simple shell 0.4
