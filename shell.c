@@ -40,7 +40,7 @@ void run_shell_command(shell_data *data)
 		{
 			exit_with_error(data, "Fork error");
 		}
-		
+
 		else if (pid == 0)
 		{
 			exit_status = execute_command_child(data, get_command_path(data));
@@ -76,8 +76,9 @@ int main(int argc, char **argv)
 {
 	int interactive_mode;
 	shell_data data;
+
 	init_shell_data(&data);
-	
+
 	if (argc > 1)
 	{
 		data.program_name = argv[0];
@@ -94,18 +95,18 @@ int main(int argc, char **argv)
 				printf("($) ");
 				fflush(stdout);
 
-                if (read_shell_input(&data) == -1)
-		{
-			free_shell_data(&data);
-			exit(EXIT_FAILURE);
-                }
+				if (read_shell_input(&data) == -1)
+				{
+					free_shell_data(&data);
+					exit(EXIT_FAILURE);
+				}
 
-                if (data.line == NULL)
-		{
-			break;
-                }
+				if (data.line == NULL)
+				{
+					break;
+				}
 
-                run_shell_command(&data);
+				run_shell_command(&data);
 			}
 		}
 		else
@@ -120,7 +121,7 @@ int main(int argc, char **argv)
 	}
 
 	free_shell_data(&data);
-	return 0;
+	return (0);
 }
 
 /**
@@ -130,7 +131,8 @@ int main(int argc, char **argv)
  * @data: shell data
  */
 
-void run_file_command(const char *program_name, const char *file_name, shell_data *data)
+void run_file_command(const char *program_name, const char *file_name,
+		shell_data *data)
 {
 	FILE *file;
 	char line[READ_BUF_SIZE];
@@ -141,7 +143,7 @@ void run_file_command(const char *program_name, const char *file_name, shell_dat
 		perror(program_name);
 		exit(EXIT_FAILURE);
 	}
-	
+
 	while (fgets(line, sizeof(line), file) != NULL)
 	{
 		line[strcspn(line, "\n")] = '\0';
@@ -151,7 +153,7 @@ void run_file_command(const char *program_name, const char *file_name, shell_dat
 		free(data->line);
 		data->line = NULL;
 	}
-	
+
 	fclose(file);
 }
 
@@ -165,36 +167,37 @@ int read_shell_input(shell_data *data)
 {
 	ssize_t chars_read;
 	size_t input_size = READ_BUF_SIZE;
-	
+
 	if (data->line != NULL)
 	{
-        free(data->line);
-        data->line = NULL;
-    }
+		free(data->line);
+		data->line = NULL;
+	}
 
-    data->line = malloc(input_size);
+	data->line = malloc(input_size);
 
-    if (data->line == NULL)
-    {
-        perror("malloc");
-        free_shell_data(data);
-        return (-1);
-    } 
+	if (data->line == NULL)
 
-    chars_read = /*_getline(data)*/getline(&(data->line), &input_size, stdin);;
-    if (chars_read == -1)
-    {
-        free_shell_data(data);
-        return (-1);
-    }
+	{
+		perror("malloc");
+		free_shell_data(data);
+		return (-1);
+	}
 
-    if (chars_read == 0 || chars_read == EOF) 
-        return (-1);
+	chars_read = /*_getline(data)*/getline(&(data->line), &input_size, stdin);
+	if (chars_read == -1)
+	{
+		free_shell_data(data);
+		return (-1);
+	}
 
-    if (data->line[chars_read - 1] == '\n')
-        data->line[chars_read - 1] = '\0';
+	if (chars_read == 0 || chars_read == EOF)
+		return (-1);
 
-    data->line_num++;
-    tokenize(data);
-    return (0);
+	if (data->line[chars_read - 1] == '\n')
+		data->line[chars_read - 1] = '\0';
+
+	daiiita->line_num++;
+	tokenize(data);
+	return (0);
 }
