@@ -25,39 +25,21 @@ These are the files with custom system calls and functions with a brief descript
 
 <h2>REQUIREMENTS<h2>
 <body>
-1. Simple shell 0.1
-Write a UNIX command line interpreter.
+<ul> 
+	<li> Write a UNIX command line interpreter.</li>
 
-Usage: simple_shell
-Your Shell should:
-
-Display a prompt and wait for the user to type a command. A command line always ends with a new line.
-The prompt is displayed again each time a command has been executed.
-The command lines are simple, no semicolons, no pipes, no redirections or any other advanced features.
-The command lines are made only of one word. No arguments will be passed to programs.
+<p>Display a prompt and wait for the user to type a command. A command line always ends with a new line.
 If an executable cannot be found, print an error message and display the prompt again.
 Handle errors.
-You have to handle the “end of file” condition (Ctrl+D)
-You don’t have to:
+You have to handle the “end of file” condition (Ctrl+D)</p>
 
-use the PATH
-implement built-ins
-handle special characters : ", ', `, \, *, &, #
-be able to move the cursor
-handle commands with arguments
-execve will be the core part of your Shell, don’t forget to pass the environ to it
+	<li> Handle command lines with arguments</li>
 
-2. Simple shell 0.2
-Simple shell 0.1 +
 
-Handle command lines with arguments
+	<li> Handle the PATH </li>
+<p>fork must not be called if the command doesn’t exist</p>
 
-3. Simple shell 0.3
-Simple shell 0.2 +
-
-Handle the PATH
-fork must not be called if the command doesn’t exist
-
+</ul>
 4. Simple shell 0.4
 Simple shell 0.3 +
 
