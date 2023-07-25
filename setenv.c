@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * _setenv: Function sets the environment variables
+ * _setenv - Function sets the environment variables
  * @name: Environment variable name
  * @value: Environment variable value
  * @overwrite: Integer indicating whether to overwrite or not
