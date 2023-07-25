@@ -36,7 +36,6 @@ void handle_echo_command(shell_data *data)
 
 char *_getenv(const char *name)
 {
-	char **environ;
 	int nameLen = _strlen(name);
 	int i;
 
