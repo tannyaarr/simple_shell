@@ -1,18 +1,26 @@
 #include "shell.h"
 
+/**
+ * _setenv: Function sets the environment variables
+ * @name: Environment variable name
+ * @value: Environment variable value
+ * @overwrite: Integer indicating whether to overwrite or not
+ * Return: integer
+ */
+
 
 int _setenv(const char *name, const char *value, int overwrite)
 {
 	int nLen = _strlen(name);
 	int vaLen = _strlen(value);
 	int envLen;
-  	int arrCnt = 0;
+	int arrCnt = 0;
 	int envCnt = 0;
 	char *newStr = NULL, *envCpy = NULL, *myname;
 	char **arr = NULL;
 	char **env = environ;
-  
-  	if (_getenv(name) != NULL)
+
+	if (_getenv(name) != NULL)
 	{
 		if (overwrite != 0)
 		{
@@ -51,7 +59,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 		while (*env != NULL)
 		{
 			envLen = _strlen(*env);
-			arr[arrCnt] = malloc((envLen + 1)* sizeof(char *));
+			arr[arrCnt] = malloc((envLen + 1) * sizeof(char *));
 			if (arr[arrCnt] == NULL)
 			{
 				while (arrCnt >= 0)
