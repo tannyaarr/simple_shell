@@ -35,7 +35,7 @@ char *get_path(shell_data *data, const char *command  __attribute__((unused)))
 
 int find_file(char *path)
 {
-	sitruct stat buff;
+	struct stat buff;
 
 	return ((stat(path, &buff) == 0));
 }
@@ -43,36 +43,35 @@ int find_file(char *path)
 char *_which(char *filename, char *path)
 {
 	char *path_cpy;
-        char *tokens[1024];
-        char *pathname;
+	char *tokens[1024];
+	char *pathname;
 	int i;
 
 	if (path == NULL)
 	{
 		return (NULL);
-        }
+	}
 	path_cpy = _strdup(path);
 
-        /* Tokenize path */
 	i = 0;
-        tokens[i] = strtok(path_cpy, ":");
+	tokens[i] = strtok(path_cpy, ":");
 
-        while (tokens[i] != NULL)
+	while (tokens[i] != NULL)
 	{
 		pathname = malloc(_strlen(tokens[i]) + _strlen(filename) + 2);
 		sprintf(pathname, "%s/%s", tokens[i], filename);
-	
+
 		if (find_file(pathname))
 		{
 			free(path_cpy);
 			return (pathname);
-                }
+		}
 
-                free(pathname);
-                i++;
-                tokens[i] = strtok(NULL, ":");
-        }
+		free(pathname);
+		i++;
+		tokens[i] = strtok(NULL, ":");
+	}
 
-        free(path_cpy);
-        return (NULL);
+	free(path_cpy);
+	return (NULL);
 }

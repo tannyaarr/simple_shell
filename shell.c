@@ -197,7 +197,7 @@ int read_shell_input(shell_data *data)
 	if (data->line[chars_read - 1] == '\n')
 		data->line[chars_read - 1] = '\0';
 
-	daiiita->line_num++;
+	data->line_num++;
 	tokenize(data);
 	return (0);
 }
