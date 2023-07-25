@@ -34,6 +34,7 @@ int _strcmp(const char *s1, const char *s2)
  * Return: Pointer to the first occurrence of the character in the string,
  * or NULL if not found
  */
+
 char *_strchr(const char *s, int c)
 {
 	while (*s)
@@ -74,6 +75,7 @@ size_t _strlen(const char *s)
  * @n: Maximum number of characters to copy
  * Return: Pointer to the destination buff
  */
+
 char *_strncpy(char *dest, const char *src, size_t n)
 {
 	char *d = dest;
