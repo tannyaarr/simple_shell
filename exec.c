@@ -44,16 +44,13 @@ void handle_unsetenv(shell_data *data)
 
 int execute_command_child(shell_data *data, char *path)
 {
-	char *command = data->args[0];
-	char line_num_str[32];
+	char *command = data->args[0], line_num_str[32];
 	int line_num_len = snprintf(line_num_str, sizeof(line_num_str),
 			"%d", data->line_num);
 	char *fullpath;
 
 	if (_strcmp(data->args[0], "echo") == 0)
-	{
 		handle_echo_command(data);
-	}
 
 	else
 	{
