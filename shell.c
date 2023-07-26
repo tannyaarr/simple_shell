@@ -34,6 +34,12 @@ void execute_external_command(shell_data *data)
 	pid_t pid;
 	int exit_status, child_exit_status;
 
+	if (_strcmp(data->args[0], "env") == 0)
+	{
+		        print_env();
+			return;
+	}
+
 	pid = fork();
 	if (pid == -1)
 		exit_with_error(data, "Fork error");

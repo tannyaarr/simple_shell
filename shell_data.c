@@ -40,13 +40,13 @@ void free_shell_data(shell_data *data)
 
 void print_env(void)
 {
-	char **env = environ;
+	char **curr_env = environ;
 	char newline = '\n';
 
-	while (*env != NULL)
+	while (*curr_env != NULL)
 	{
-		write(STDOUT_FILENO, *env, strlen(*env));
+		write(STDOUT_FILENO, *curr_env, strlen(*curr_env));
 		write(STDOUT_FILENO, &newline, 1);
-		env++;
+		curr_env++;
 	}
 }
