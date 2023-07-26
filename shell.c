@@ -10,8 +10,7 @@
 void run_shell_command(shell_data *data)
 {
 	pid_t pid;
-	int exit_status;
-	int child_exit_status;
+	int exit_status, child_exit_status;
 
 	if (data->args[0] == NULL)
 	{
@@ -22,13 +21,9 @@ void run_shell_command(shell_data *data)
 	else if (_strcmp(data->args[0], "env") == 0)
 		print_env();
 	else if (_strcmp(data->args[0], "setenv") == 0)
-	{
 		handle_setenv(data);
-	}
 	else if (_strcmp(data->args[0], "unsetenv") == 0)
-	{
 		handle_unsetenv(data);
-	}
 	else if (_strcmp(data->args[0], "cd") == 0)
 		cd_command(data);
 	else if (_strcmp(data->args[0], "echo") == 0)
@@ -37,10 +32,7 @@ void run_shell_command(shell_data *data)
 	{
 		pid = fork();
 		if (pid == -1)
-		{
 			exit_with_error(data, "Fork error");
-		}
-
 		else if (pid == 0)
 		{
 			exit_status = execute_command_child(data, get_command_path(data));
@@ -53,14 +45,10 @@ void run_shell_command(shell_data *data)
 			{
 				child_exit_status = WEXITSTATUS(exit_status);
 				if (child_exit_status != 0)
-				{
 					errno = child_exit_status;
-				}
 			}
 			else
-			{
 				errno = 127;
-			}
 		}
 	}
 }
