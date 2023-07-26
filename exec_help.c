@@ -44,53 +44,58 @@ void wait_for_child(pid_t pid, int *status)
 
 
 /**
- * unset_env_variable - Remove an environment variable
+ * _unsetenv_variable - Remove an environment variable
  * @variable: The name of the environment variable to be removed
  * Return: void
  */
-int _unsetenv(const char* name) {
-    char** env = environ, **arr;
-    int len, nameLength;
-    int env_cnt = 0;
-    int i, j;
+int _unsetenv(const char *name)
+{
+	char **env = environ, **arr;
+	int len, nameLength;
+	int env_cnt = 0;
+	int i, j;
 
-    if (name == NULL)
-        return -1;
+	if (name == NULL)
+		return (-1);
 
-    while (*env != NULL) {
-        env_cnt++;
-        env++;
-    }
+	while (*env != NULL)
+	{
+		env_cnt++;
+		env++;
+	}
 
-    arr = malloc((env_cnt + 1) * sizeof(char*));
-    if (arr == NULL)
-        return -1;
+	arr = malloc((env_cnt + 1) * sizeof(char *));
+	if (arr == NULL)
+		return (-1);
 
-    env = environ;
-    i = 0;
-    j = 0;
-    nameLength = _strlen(name);
+	env = environ;
+	i = 0;
+	j = 0;
+	nameLength = _strlen(name);
 
-    while (*env != NULL) {
-        if (_strncmp(name, *env, nameLength) != 0 || (*env)[nameLength] != '=') {
-            len = _strlen(*env);
-            arr[i] = malloc((len + 1) * sizeof(char));
-            if (arr[i] == NULL) {
-                for (j = 0; j < i; j++) {
-                    free(arr[j]);
-                }
-                free(arr);
-                return -1;
-            }
-            _strcpy(arr[i], *env);
-            i++;
-        }
-        env++;
-    }
-
-    arr[i] = NULL;
-    environ = arr;
-    return 0;
+	while (*env != NULL)
+	{
+		if (_strncmp(name, *env, nameLength) != 0 || (*env)[nameLength] != '=')
+		{
+			len = _strlen(*env);
+			arr[i] = malloc((len + 1) * sizeof(char));
+			if (arr[i] == NULL)
+			{
+				for (j = 0; j < i; j++)
+				{
+					free(arr[j]);
+				}
+				free(arr);
+				return (-1);
+			}
+			_strcpy(arr[i], *env);
+			i++;
+		}
+		env++;
+	}
+	arr[i] = NULL;
+	environ = arr;
+	return (0);
 }
 
 
