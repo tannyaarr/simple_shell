@@ -76,6 +76,7 @@ char *_strcpy(char *dest, char *src);
 int _strncmp(const char *s1, const char *s2, size_t n);
 int update_environment_variable(const char *name, const char *value);
 int add_environment_variable(const char *name, const char *value);
-
+void execute_builtin_command(shell_data *data);
+void execute_external_command(shell_data *data);
 
 #endif /* SHELL_H */
