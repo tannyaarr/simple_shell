@@ -74,6 +74,8 @@ char *_strdup(char *str);
 char *_strconcat(const char *str1, const char *str2);
 char *_strcpy(char *dest, char *src);
 int _strncmp(const char *s1, const char *s2, size_t n);
+int update_environment_variable(const char *name, const char *value);
+int add_environment_variable(const char *name, const char *value);
 
 
 #endif /* SHELL_H */

@@ -1,83 +1,57 @@
 #include "shell.h"
 
-/**
- * _setenv - Function sets the environment variables
- * @name: Environment variable name
- * @value: Environment variable value
- * @overwrite: Integer indicating whether to overwrite or not
- * Return: integer
- */
 
+int add_environment_variable(const char *name, const char *value) {
+    int nLen = _strlen(name);
+    int vaLen = _strlen(value);
+    char *newStr = (char *)malloc((nLen + vaLen + 2) * sizeof(char));
+    int envCnt = 0;
+    if (newStr == NULL) {
+        return -1;
+    }
+    sprintf(newStr, "%s=%s", name, value);
+    
+    while (environ[envCnt] != NULL) {
+        envCnt++;
+    }
+    environ[envCnt] = newStr;
+    environ[envCnt + 1] = NULL;
+    return 0;
+}
 
-int _setenv(const char *name, const char *value, int overwrite)
-{
-	int nLen = _strlen(name);
-	int vaLen = _strlen(value);
-	int envLen;
-	int arrCnt = 0;
-	int envCnt = 0;
-	char *newStr = NULL, *envCpy = NULL, *myname;
-	char **arr = NULL;
-	char **env = environ;
+int update_environment_variable(const char *name, const char *value) {
+    int nLen = _strlen(name);
+    int vaLen = _strlen(value);
+    char **env = environ;
+    char *newStr = NULL;
 
-	if (_getenv(name) != NULL)
-	{
-		if (overwrite != 0)
-		{
-			newStr = malloc((nLen + vaLen + 2) * sizeof(*newStr));
-			if (newStr == NULL)
-				return (-1);
-			sprintf(newStr, "%s=%s", name, value);
-			while (*env != NULL)
-			{
-				envCpy = _strdup(*env);
-				myname = strtok(envCpy, ":");
-				if (_strcmp(myname, name) == 0)
-				{
-					*env = newStr;
-					free(envCpy);
-					break;
-				}
-				env++;
-				free(envCpy);
-			}
-		}
-	}
-	else
-	{
-		newStr = malloc((nLen + vaLen + 2) * sizeof(*newStr));
-		if (newStr == NULL)
-			return (-1);
-		sprintf(newStr, "%s=%s", name, value);
-		while (*env != NULL)
-		{
-			envCnt++;
-			env++;
-		}
-		arr = malloc((envCnt + 2) * sizeof(**arr));
-		env = environ;
-		while (*env != NULL)
-		{
-			envLen = _strlen(*env);
-			arr[arrCnt] = malloc((envLen + 1) * sizeof(char *));
-			if (arr[arrCnt] == NULL)
-			{
-				while (arrCnt >= 0)
-				{
-					arrCnt--;
-					free(arr[arrCnt]);
-				}
-				free(newStr);
-				free(arr);
-				return (-1);
-			}
-			arr[arrCnt] = *env;
-			arrCnt++;
-			env++;
-		}
-		arr[arrCnt] = newStr;
-		arr[arrCnt + 1] = NULL;
-		environ = arr;
-	}
-	return (0);
+    while (*env != NULL) {
+        char *envCpy = _strdup(*env);
+        char *myname = strtok(envCpy, "=");
+        if (_strcmp(myname, name) == 0) {
+            newStr = (char *)malloc((nLen + vaLen + 2) * sizeof(char));
+            if (newStr == NULL) {
+                    free(envCpy);
+                return -1;
+            }
+            sprintf(newStr, "%s=%s", name, value);
+            *env = newStr;
+            free(envCpy);
+            return 0;
+        }
+        env++;
+        free(envCpy);
+    }
+    return -1;
+}
+
+int _setenv(const char *name, const char *value, int overwrite) {
+    if (_getenv(name) != NULL) {
+        if (overwrite != 0) {
+            return update_environment_variable(name, value);
+        }
+    } else {
+        return add_environment_variable(name, value);
+    }
+    return 0;
 }
