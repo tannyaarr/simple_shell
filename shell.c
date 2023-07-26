@@ -36,8 +36,8 @@ void execute_external_command(shell_data *data)
 
 	if (_strcmp(data->args[0], "env") == 0)
 	{
-		        print_env();
-			return;
+		print_env();
+		return;
 	}
 
 	pid = fork();
