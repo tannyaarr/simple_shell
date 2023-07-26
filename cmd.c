@@ -30,8 +30,9 @@ void handle_echo_command(shell_data *data)
 }
 
 /**
- * _getenv- gets environment
+ * _getenv - gets environment
  * @name: name of environment to be printed
+ * Return: Environment variable value
  */
 
 char *_getenv(const char *name)
