@@ -33,12 +33,28 @@ char *get_path(shell_data *data, const char *command  __attribute__((unused)))
 }
 
 
+
+/**
+ * find_file - find file in path
+ * @path: Suspected location of file
+ * Return: 0 on success, -1 on failure
+ */
+
+
 int find_file(char *path)
 {
 	struct stat buff;
 
 	return ((stat(path, &buff) == 0));
 }
+
+
+/**
+ * _which - Finds which path file is located
+ * @filename: name of file
+ * @path:  location of file
+ * Return: fullpath
+ */
 
 char *_which(char *filename, char *path)
 {

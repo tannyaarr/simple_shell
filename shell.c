@@ -9,61 +9,53 @@
 
 void run_shell_command(shell_data *data)
 {
-	pid_t pid;
-	int exit_status;
-	int child_exit_status;
-
 	if (data->args[0] == NULL)
 	{
 		return;
 	}
-	if (_strcmp(data->args[0], "exit") == 0)
-		exit(0);
-	else if (_strcmp(data->args[0], "env") == 0)
-		print_env();
-	else if (_strcmp(data->args[0], "setenv") == 0)
+	if (is_builtin_command(data->args[0]))
 	{
-		handle_setenv(data);
+		execute_builtin_command(data);
 	}
-	else if (_strcmp(data->args[0], "unsetenv") == 0)
-	{
-		handle_unsetenv(data);
-	}
-	else if (_strcmp(data->args[0], "cd") == 0)
-		cd_command(data);
-	else if (_strcmp(data->args[0], "echo") == 0)
-		handle_echo_command(data);
 	else
 	{
-		pid = fork();
-		if (pid == -1)
-		{
-			exit_with_error(data, "Fork error");
-		}
-
-		else if (pid == 0)
-		{
-			exit_status = execute_command_child(data, get_command_path(data));
-			exit(exit_status);
-		}
-		else
-		{
-			waitpid(pid, &exit_status, 0);
-			if (WIFEXITED(exit_status))
-			{
-				child_exit_status = WEXITSTATUS(exit_status);
-				if (child_exit_status != 0)
-				{
-					errno = child_exit_status;
-				}
-			}
-			else
-			{
-				errno = 127;
-			}
-		}
+		execute_external_command(data);
 	}
 }
+
+/**
+ * execute_external_command - execute not-builtin commands
+ * @data: Pointer to shell data structure
+ * Return: void
+ **/
+
+void execute_external_command(shell_data *data)
+{
+	pid_t pid;
+	int exit_status, child_exit_status;
+
+	pid = fork();
+	if (pid == -1)
+		exit_with_error(data, "Fork error");
+	else if (pid == 0)
+	{
+		exit_status = execute_command_child(data, get_command_path(data));
+		exit(exit_status);
+	}
+	else
+	{
+		waitpid(pid, &exit_status, 0);
+		if (WIFEXITED(exit_status))
+		{
+			child_exit_status = WEXITSTATUS(exit_status);
+			if (child_exit_status != 0)
+				errno = child_exit_status;
+		}
+		else
+			errno = 127;
+	}
+}
+
 
 /**
  * main - Entry point of the shell program
@@ -78,7 +70,6 @@ int main(int argc, char **argv)
 	shell_data data;
 
 	init_shell_data(&data);
-
 	if (argc > 1)
 	{
 		data.program_name = argv[0];
@@ -94,32 +85,24 @@ int main(int argc, char **argv)
 			{
 				printf("($) ");
 				fflush(stdout);
-
 				if (read_shell_input(&data) == -1)
 				{
 					free_shell_data(&data);
 					exit(EXIT_FAILURE);
 				}
-
 				if (data.line == NULL)
-				{
 					break;
-				}
-
 				run_shell_command(&data);
 			}
 		}
 		else
 		{
 			while (read_shell_input(&data) == 0)
-			{
 				run_shell_command(&data);
-			}
 			if (errno > 100)
 				exit(errno);
 		}
 	}
-
 	free_shell_data(&data);
 	return (0);
 }

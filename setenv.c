@@ -1,7 +1,11 @@
 #include "shell.h"
 
-
-
+/**
+ * add_environment_variable - add the environment variable
+ * @name: the name to be processed
+ * @value: the value to be printed
+ * Return: the result
+ */
 
 int add_environment_variable(const char *name, const char *value)
 {
@@ -24,6 +28,13 @@ int add_environment_variable(const char *name, const char *value)
 	environ[envCnt + 1] = NULL;
 	return (0);
 }
+
+/**
+ * update_environment_variable - updates the environment variable
+ * @name: name of variable to be updated
+ * @value: value of updated variable
+ * Return: int signifying success
+ **/
 
 int update_environment_variable(const char *name, const char *value)
 {
@@ -56,6 +67,13 @@ int update_environment_variable(const char *name, const char *value)
 	return (-1);
 }
 
+/**
+ * _setenv - sets the environment
+ * @name: name of variable to be set
+ * @value: value of variable to be set
+ * @overwrite: Int signifying whether to overwrite input or not
+ * Return: Int signifying success or failure
+ **/
 
 int _setenv(const char *name, const char *value, int overwrite)
 {
@@ -69,5 +87,5 @@ int _setenv(const char *name, const char *value, int overwrite)
 	{
 		return (add_environment_variable(name, value));
 	}
-	return 0;
+	return (0);
 }

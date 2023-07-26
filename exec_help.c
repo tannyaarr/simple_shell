@@ -44,35 +44,28 @@ void wait_for_child(pid_t pid, int *status)
 
 
 /**
- * _unsetenv_variable - Remove an environment variable
- * @variable: The name of the environment variable to be removed
- * Return: void
+ * _unsetenv - Remove an environment variable
+ * @name: The name of the environment variable to be removed
+ * Return: Integer
  */
 int _unsetenv(const char *name)
 {
 	char **env = environ, **arr;
-	int len, nameLength;
-	int env_cnt = 0;
-	int i, j;
+	int len, nameLength = _strlen(name), env_cnt = 0, i, j;
 
 	if (name == NULL)
 		return (-1);
-
 	while (*env != NULL)
 	{
 		env_cnt++;
 		env++;
 	}
-
 	arr = malloc((env_cnt + 1) * sizeof(char *));
 	if (arr == NULL)
 		return (-1);
-
 	env = environ;
 	i = 0;
 	j = 0;
-	nameLength = _strlen(name);
-
 	while (*env != NULL)
 	{
 		if (_strncmp(name, *env, nameLength) != 0 || (*env)[nameLength] != '=')

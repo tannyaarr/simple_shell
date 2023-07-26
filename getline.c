@@ -50,7 +50,6 @@ ssize_t _getline(shell_data *data)
 			{
 				if (append_to_line(data, input, i, &total_chars_read) == -1)
 					return (-1);
-
 				tokenize(data);
 				return (total_chars_read);
 			}

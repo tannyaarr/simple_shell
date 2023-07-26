@@ -44,16 +44,13 @@ void handle_unsetenv(shell_data *data)
 
 int execute_command_child(shell_data *data, char *path)
 {
-	char *command = data->args[0];
-	char line_num_str[32];
+	char *command = data->args[0], line_num_str[32];
 	int line_num_len = snprintf(line_num_str, sizeof(line_num_str),
 			"%d", data->line_num);
 	char *fullpath;
 
 	if (_strcmp(data->args[0], "echo") == 0)
-	{
 		handle_echo_command(data);
-	}
 
 	else
 	{
@@ -86,6 +83,34 @@ int execute_command_child(shell_data *data, char *path)
 		}
 	}
 	return (0);
+}
+
+
+/**
+ * execute_builtin_command - execute if is builtin
+ * @data: Pointer to data structure
+ * Return: void
+ **/
+
+void execute_builtin_command(shell_data *data)
+{
+	if (data->args[0] == NULL)
+	{
+		return;
+	}
+
+	if (_strcmp(data->args[0], "exit") == 0)
+		exit(0);
+	else if (_strcmp(data->args[0], "env") == 0)
+		print_env();
+	else if (_strcmp(data->args[0], "setenv") == 0)
+		handle_setenv(data);
+	else if (_strcmp(data->args[0], "unsetenv") == 0)
+		handle_unsetenv(data);
+	else if (_strcmp(data->args[0], "cd") == 0)
+		cd_command(data);
+	else if (_strcmp(data->args[0], "echo") == 0)
+		handle_echo_command(data);
 }
 
 /**
