@@ -25,6 +25,10 @@ extern char **environ;
  * @line: Pointer to the input line
  * @args: Array of arguments
  * @num_args: Number of arguments
+ * @status: status of program
+ * @program_name: name of program
+ * @line_num: line number
+ * @shell_exit_status: exit status of program
  */
 
 typedef struct shell_data
@@ -67,8 +71,8 @@ char *_which(char *filename, char *path);
 int find_file(char *path);
 void handle_setenv(shell_data *data);
 void handle_unsetenv(shell_data *data);
-int _unsetenv(const char* name);
-char* _getenv(const char* name);
+int _unsetenv(const char *name);
+char *_getenv(const char *name);
 int _setenv(const char *name, const char *value, int overwrite);
 char *_strdup(char *str);
 char *_strconcat(const char *str1, const char *str2);
